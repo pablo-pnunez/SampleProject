@@ -11,14 +11,14 @@ import numpy as np
 
 args = parse_cmd_args()
 
-city = "paris".lower().replace(" ", "") if args.c is None else args.c
-stage = 3 if args.s is None else args.s
+city = "gijon".lower().replace(" ", "") if args.ct is None else args.ct
+stage = 0 if args.stg is None else args.stg
 
+gpu = int(np.argmin(list(map(lambda x: x["mem_used_percent"], nvgpu.gpu_info()))))
 seed = 100 if args.sd is None else args.sd
 l_rate = 5e-4 if args.lr is None else args.lr
 n_epochs = 4000 if args.ep is None else args.ep
 b_size = 1024 if args.bs is None else args.bs
-gpu = int(np.argmin(list(map(lambda x: x["mem_used_percent"], nvgpu.gpu_info()))))
 
 # DATASETS #############################################################################################################
 
