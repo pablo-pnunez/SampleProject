@@ -48,14 +48,10 @@ def print_b(text, bold=False):
 def parse_cmd_args():
     """Obtener argumentos por linea de comandos"""
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', type=str, help="city")
-    parser.add_argument('-m', type=str, help="model_version")
-    parser.add_argument('-p', type=float, help="pctg")
-    parser.add_argument('-lr', type=float, help="lrate")
-    parser.add_argument('-bs', type=int, help="batch")
-    parser.add_argument('-s', type=int, help="stage")
-    parser.add_argument('-csm', type=str, help="clusters_selection_mode")
-    parser.add_argument('-inc', type=int, help="img_n_clusters")
-    parser.add_argument('-ism', type=int, help="Image selection model (0/1) (clustering/random)")
+    parser.add_argument('-ct', type=str, help="City")
+    parser.add_argument('-sd', type=int, help="Seed")
+    parser.add_argument('-lr', type=float, help="Learning rate")
+    parser.add_argument('-bs', type=int, help="Batch size")
+    parser.add_argument('-stg', type=int, help="stage")
     args = parser.parse_args()
     return args
