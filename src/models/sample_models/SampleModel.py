@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from src.Metrics import precision, recall, f1
-from src.models import KerasModelClass
-from src.sequences import BaseSequence
+from src.models.KerasModelClass import *
+from src.sequences.BaseSequence import *
 
 import tqdm
 import numpy as np

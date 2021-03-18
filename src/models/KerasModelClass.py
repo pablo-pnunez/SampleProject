@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from src.models import ModelClass
+from src.models.ModelClass import *
 
-from src.Common import print_w, print_e, print_g
+from src.Common import print_e, print_g
 from src.Callbacks import linear_decay, CustomStopper
 import os
 

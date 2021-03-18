@@ -50,6 +50,7 @@ def parse_cmd_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-ct', type=str, help="City")
     parser.add_argument('-sd', type=int, help="Seed")
+    parser.add_argument('-ep', type=int, help="Epoch number")
     parser.add_argument('-lr', type=float, help="Learning rate")
     parser.add_argument('-bs', type=int, help="Batch size")
     parser.add_argument('-stg', type=int, help="stage")

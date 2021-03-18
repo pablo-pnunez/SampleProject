@@ -1,20 +1,24 @@
-import nvgpu
+# -*- coding: utf-8 -*-
 
 from src.Common import parse_cmd_args
-from src.datasets.sample_datasets.OnlyFood import *
-from src.models.sample_models.SampleModel import *
+from src.datasets.sample_datasets import OnlyFood
+from src.models.sample_models import SampleModel
+
+import nvgpu
+import numpy as np
 
 ########################################################################################################################
 
 args = parse_cmd_args()
 
 city = "paris".lower().replace(" ", "") if args.c is None else args.c
-seed = 100
-gpu = int(np.argmin(list(map(lambda x: x["mem_used_percent"], nvgpu.gpu_info()))))
-l_rate = 5e-4 if args.lr is None else args.lr
-n_epochs = 4000
-b_size = 1024 if args.bs is None else args.bs
 stage = 3 if args.s is None else args.s
+
+seed = 100 if args.sd is None else args.sd
+l_rate = 5e-4 if args.lr is None else args.lr
+n_epochs = 4000 if args.ep is None else args.ep
+b_size = 1024 if args.bs is None else args.bs
+gpu = int(np.argmin(list(map(lambda x: x["mem_used_percent"], nvgpu.gpu_info()))))
 
 # DATASETS #############################################################################################################
 

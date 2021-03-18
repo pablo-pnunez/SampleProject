@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from src.datasets import DatasetClass
+from src.datasets.DatasetClass import *
 from src.Common import to_pickle, get_pickle, print_g
 
 import os
