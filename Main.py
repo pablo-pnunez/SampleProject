@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from src.Common import parse_cmd_args
-from src.datasets.sample_datasets import OnlyFood
-from src.models.sample_models import SampleModel
+from src.datasets.sample_datasets.OnlyFood import OnlyFood
+from src.models.sample_models.SampleModel import SampleModel
 
 import nvgpu
 import numpy as np
