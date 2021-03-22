@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from src.Common import print_w
+
 import random
 import os
-
 import json
 import hashlib
-
 import numpy as np
-import tensorflow as tf
 
 
 class ModelClass:
@@ -28,19 +26,17 @@ class ModelClass:
 
         # Crear carpeta para el modelo
         if os.path.exists(self.MODEL_PATH):
-            print_w("The model already exists...")
-        else: 
+            print_w("Model folder already exists...")
+        else:
             os.makedirs(self.MODEL_PATH, exist_ok=True)
 
         # Crear json con la configuración del modelo
         # with open(self.MODEL_PATH+'/cfg.json', 'w') as fp: json.dump(self.CONFIG["model"], fp)
-        with open(self.MODEL_PATH+'/cfg.json', 'w') as fp: 
+        with open(self.MODEL_PATH+'/cfg.json', 'w') as fp:
             json.dump(cfg_save_data, fp, indent=4)
 
-        # Fijar las semillas de numpy y TF
-        np.random.seed(self.CONFIG["model"]["seed"])
-        random.seed(self.CONFIG["model"]["seed"])
-        tf.random.set_seed(self.CONFIG["model"]["seed"])
+        # Fijar las semillas
+        self.__fix_seeds__()
 
         # Seleccionar la GPU más adecuada y limitar el uso de memoria
         self.__config_session__()
@@ -57,11 +53,13 @@ class ModelClass:
         return hashlib.md5(str(res).encode()).hexdigest(), res
 
     def __config_session__(self):
+        # Selecciona una de las gpu dispobiles
         os.environ["CUDA_VISIBLE_DEVICES"] = str(self.CONFIG["session"]["gpu"])
 
-        gpus = tf.config.experimental.list_physical_devices("GPU")
-        for g in gpus:
-            tf.config.experimental.set_memory_growth(g, True)
+    def __fix_seeds__(self):
+        # Fijar las semillas de numpy y TF
+        np.random.seed(self.CONFIG["model"]["seed"])
+        random.seed(self.CONFIG["model"]["seed"])
 
     def get_model(self):
         raise NotImplementedError

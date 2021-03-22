@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from src.models.ModelClass import *
-
 from src.Common import print_e, print_g
 from src.Callbacks import linear_decay, CustomStopper
-import os
 
+import os
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-
 import matplotlib.pylab as plt
 import seaborn as sns
 
@@ -17,6 +15,20 @@ class KerasModelClass(ModelClass):
 
     def __init__(self, config, dataset):
         ModelClass.__init__(self, config=config, dataset=dataset)
+
+    def __config_session__(self):
+        # Selecciona una de las gpu dispobiles
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(self.CONFIG["session"]["gpu"])
+
+        gpus = tf.config.experimental.list_physical_devices("GPU")
+        for g in gpus:
+            tf.config.experimental.set_memory_growth(g, True)
+
+    def __fix_seeds__(self):
+        # Fijar las semillas de numpy y TF
+        np.random.seed(self.CONFIG["model"]["seed"])
+        random.seed(self.CONFIG["model"]["seed"])
+        tf.random.set_seed(self.CONFIG["model"]["seed"])
 
     def train(self, dev=False, save_model=False):
 

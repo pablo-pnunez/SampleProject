@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from src.Common import parse_cmd_args
-from src.datasets.sample_datasets.OnlyFood import OnlyFood
-from src.models.sample_models.SampleModel import SampleModel
+from src.datasets.sample_datasets.W2VDataset import W2VDatasetClass
+from src.models.sample_models.W2V import W2V
 
 import nvgpu
 import numpy as np
@@ -20,20 +20,17 @@ l_rate = 5e-4 if args.lr is None else args.lr
 n_epochs = 4000 if args.ep is None else args.ep
 b_size = 1024 if args.bs is None else args.bs
 
-# DATASETS #############################################################################################################
+# W2V ##################################################################################################################
 
-data_cfg = {"city": city, "data_path": "/media/HDD/pperez/TripAdvisor/"+city+"_data/"}
-dts = OnlyFood(data_cfg)
+base_path = "/media/nas/pperez/data/TripAdvisor/"
+w2v_dts = W2VDatasetClass({"cities": ["gijon", "barcelona", "madrid"], "city": "multi", "remove_accents": True, "remove_numbers": True, "seed": seed,
+                           "data_path": base_path, "save_path": base_path+"Datasets/"})
 
-# MODELS ###############################################################################################################
+w2v_mdl = W2V({"model": {"train_set": "ALL_TEXTS", "min_count": 100, "window": 5, "n_dimensions": 300, "seed": seed},
+               "session": {"gpu": gpu, "in_md5": False}}, w2v_dts)
 
-model_cfg = {"model": {"learning_rate": 1e-4, "epochs": 1000, "batch_size": 1024, "seed": seed},
-             "data_filter": {"min_imgs_per_rest": 5, "min_usrs_per_rest": 5},
-             "session": {"gpu": gpu, "in_md5": False}}
+w2v_mdl.train()
 
-mdl = SampleModel(model_cfg, dts)
+w2v_mdl.test("cachopo")
 
-if stage == 0:  # GridSearch
-    mdl.train(dev=True, save_model=True)
-elif stage == 1:  # Train
-    mdl.train(dev=False, save_model=True)
+# W2V ##################################################################################################################
